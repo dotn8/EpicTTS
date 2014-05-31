@@ -11,7 +11,7 @@ namespace EpicTTS.Models
 {
     public class MainModel : INotifyPropertyChanged, IDisposable
     {
-        private readonly SpeechSynthesizer _synthesizer;
+        private SpeechSynthesizer _synthesizer;
         private InstalledVoice _selectedVoice;
         private string _text;
         public IList<InstalledVoice> Voices { get; private set; }
@@ -22,12 +22,7 @@ namespace EpicTTS.Models
 
         public MainModel()
         {
-            _synthesizer = new SpeechSynthesizer();
             Initialize();
-            SpeakCommand = new RelayCommand(Speak);
-            StopSpeakingCommand = new RelayCommand(StopSpeaking);
-            PauseSpeakingCommand = new RelayCommand(PauseSpeaking);
-            _synthesizer.StateChanged += StateChanged;
         }
 
         private void PauseSpeaking(object obj)
@@ -57,7 +52,11 @@ namespace EpicTTS.Models
 
         private void Initialize()
         {
+            InitializeSynthesizer();
             InitializeVoices();
+            InitializeSelectedVoice();
+            InitializeText();
+            InitializeCommands();
         }
 
         public InstalledVoice SelectedVoice
@@ -72,9 +71,32 @@ namespace EpicTTS.Models
             }
         }
 
+        private void InitializeSynthesizer()
+        {
+            _synthesizer = new SpeechSynthesizer();
+            _synthesizer.StateChanged += StateChanged;
+        }
+
         private void InitializeVoices()
         {
             Voices = new List<InstalledVoice>(_synthesizer.GetInstalledVoices());
+        }
+
+        private void InitializeSelectedVoice()
+        {
+            SelectedVoice = Voices[0];
+        }
+
+        private void InitializeText()
+        {
+            Text = "";
+        }
+
+        private void InitializeCommands()
+        {
+            SpeakCommand = new RelayCommand(Speak);
+            StopSpeakingCommand = new RelayCommand(StopSpeaking);
+            PauseSpeakingCommand = new RelayCommand(PauseSpeaking);
         }
 
         public string Text

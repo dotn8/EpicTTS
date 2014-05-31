@@ -79,14 +79,17 @@
                               SelectedItem="{Binding Path=SelectedVoice}" ItemTemplate="{StaticResource VoiceComboBoxDataTemplate}"/>
                 </fluent:RibbonGroupBox>
 
-                <fluent:RibbonGroupBox Name="Other" Header="Output">
+                <fluent:RibbonGroupBox Name="Other" Header="Live playback">
                     <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Target="{Binding ElementName=StateTextBlock}" Margin="0,0,10,0">State:</Label>
+                            <TextBlock Name="StateTextBlock" Text="{Binding Path=State}"/>
+                        </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource StopEnabledStateConverter}}"/>
                             <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
                             <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
                         </StackPanel>
-                        <TextBlock Text="{Binding Path=State}"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
