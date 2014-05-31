@@ -80,10 +80,13 @@
                 </fluent:RibbonGroupBox>
 
                 <fluent:RibbonGroupBox Name="Other" Header="Output">
-                    <StackPanel Orientation="Horizontal">
-                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource StopEnabledStateConverter}}"/>
-                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
-                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource StopEnabledStateConverter}}"/>
+                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
+                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Path=State}"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 

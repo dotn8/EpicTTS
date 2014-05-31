@@ -50,6 +50,8 @@ namespace EpicTTS.Models
 
         private void StopSpeaking(object obj)
         {
+            if (_synthesizer.State == SynthesizerState.Paused)
+                _synthesizer.Resume();
             _synthesizer.SpeakAsyncCancelAll();
         }
 
