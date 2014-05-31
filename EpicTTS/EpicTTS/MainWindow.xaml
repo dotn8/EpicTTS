@@ -3,7 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
-        Title="EpicTTS">
+        Title="EpicTTS" Grid.IsSharedSizeScope="True">
+    <Window.Resources>
+        <ControlTemplate x:Key="ListVoiceDataTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="VoiceName" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="VoiceAge" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="VoiceGender" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="VoiceCulture" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Path=VoiceInfo.Name}" Margin="0,0,10,0"/>
+                <TextBlock Grid.Column="1" Text="{Binding Path=VoiceInfo.Age}" Margin="0,0,10,0"/>
+                <TextBlock Grid.Column="2" Text="{Binding Path=VoiceInfo.Gender}" Margin="0,0,10,0"/>
+                <TextBlock Grid.Column="3" Text="{Binding Path=VoiceInfo.Culture.DisplayName}"/>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="SingleVoiceDataTemplate">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <TextBlock Text="{Binding Path=VoiceInfo.Name}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=VoiceInfo.Age}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding Path=VoiceInfo.Gender}" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding Path=VoiceInfo.Culture.DisplayName}"/>
+                </StackPanel>
+            </StackPanel>
+        </ControlTemplate>
+        <DataTemplate x:Key="CustomerTemplate">
+            <Control x:Name="theControl" Focusable="False" Template="{StaticResource ListVoiceDataTemplate}" />
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}" Value="{x:Null}">
+                    <Setter TargetName="theControl" Property="Template" Value="{StaticResource SingleVoiceDataTemplate}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <fluent:Ribbon CanCustomizeRibbon="False" CanCustomizeQuickAccessToolBar="False" CanQuickAccessLocationChanging="False" AutomaticStateManagement="False" IsQuickAccessToolBarVisible="False">
 
@@ -19,9 +54,13 @@
 
                 <!--By default ReduceOrder="Large, Middle, Small"-->
                 <fluent:RibbonGroupBox Name="Default" Header="Voice" MinWidth="200">
+                    <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5" SelectedItem="{Binding Path=SelectedVoice}" ItemTemplate="{StaticResource CustomerTemplate}"/>
+                </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox Name="Other" Header="Output">
                     <StackPanel Orientation="Horizontal">
                         <Label Target="{Binding ElementName=VoiceComboBox}" Margin="5">Voice:</Label>
-                        <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5" SelectedItem="{Binding Path=SelectedVoice}">
+                        <ComboBox x:Name="AudioFormatComboBox" ItemsSource="{Binding Path=SelectedVoice.VoiceInfo.SupportedAudioFormats}" MinWidth="150" Margin="5" SelectedItem="{Binding Path=SelectedAudioFormat}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=VoiceInfo.Name}"/>
@@ -29,18 +68,6 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ElementName=VoiceComboBox, Path=SelectedItem.VoiceInfo.Age}" Margin="0,0,10,0"/>
-                        <TextBlock Text="{Binding ElementName=VoiceComboBox, Path=SelectedItem.VoiceInfo.Gender}" Margin="0,0,10,0"/>
-                        <TextBlock Text="{Binding ElementName=VoiceComboBox, Path=SelectedItem.VoiceInfo.Culture.DisplayName}" Margin="0,0,10,0"/>
-                    </StackPanel>
-                </fluent:RibbonGroupBox>
-
-                <fluent:RibbonGroupBox Name="Other" Header="Output">
-                    <fluent:Button SizeDefinition="Large, Large, Large" Header="Green" Icon="Images\Green.png" LargeIcon="Images\GreenLarge.png" />
-                    <fluent:Button SizeDefinition="Large, Large, Small" Header="Grey" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" />
-                    <fluent:Button SizeDefinition="Middle, Small, Small" Header="Grey" Icon="Images\Yellow.png" LargeIcon="Images\YellowLarge.png" />
-                    <fluent:Button SizeDefinition="Middle, Small, Small" Header="Grey" Icon="Images\Brown.png" LargeIcon="Images\BrownLarge.png" />
                 </fluent:RibbonGroupBox>
 
             </fluent:RibbonTabItem>
