@@ -6,10 +6,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="TODO: add content" />
-            </StackPanel>
-        </ScrollViewer>
+        <GroupBox>
+            <GroupItem>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Target="{Binding ElementName=InputTypeComboBox}">Input type</Label>
+                    <ComboBox Grid.Column="1" Name="InputTypeComboBox"></ComboBox>
+                </Grid>
+            </GroupItem>
+        </GroupBox>
     </Grid>
 </UserControl>
