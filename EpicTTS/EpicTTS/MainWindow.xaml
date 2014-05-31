@@ -5,6 +5,7 @@
         xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:converters="clr-namespace:EpicTTS.Converters"
         xmlns:synthesis="clr-namespace:System.Speech.Synthesis;assembly=System.Speech"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         Title="EpicTTS" Grid.IsSharedSizeScope="True" Closed="Window_Closed">
     <Window.Resources>
         <ControlTemplate x:Key="ListVoiceDataTemplate">
@@ -40,14 +41,19 @@
             </DataTemplate.Triggers>
         </DataTemplate>
         <converters:DictionaryConverter x:Key="PauseEnabledStateConverter">
-            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Ready}">Hidden</Visibility>
-            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Speaking}">Visible</Visibility>
-            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Paused}">Hidden</Visibility>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Ready}">False</system:Boolean>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Speaking}">True</system:Boolean>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Paused}">False</system:Boolean>
         </converters:DictionaryConverter>
         <converters:DictionaryConverter x:Key="PlayEnabledStateConverter">
-            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Ready}">Visible</Visibility>
-            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Speaking}">Hidden</Visibility>
-            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Paused}">Visible</Visibility>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Ready}">True</system:Boolean>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Speaking}">False</system:Boolean>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Paused}">True</system:Boolean>
+        </converters:DictionaryConverter>
+        <converters:DictionaryConverter x:Key="StopEnabledStateConverter">
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Ready}">False</system:Boolean>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Speaking}">True</system:Boolean>
+            <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Paused}">True</system:Boolean>
         </converters:DictionaryConverter>
     </Window.Resources>
     <Grid>
@@ -75,9 +81,9 @@
 
                 <fluent:RibbonGroupBox Name="Other" Header="Output">
                     <StackPanel Orientation="Horizontal">
-                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}"/>
-                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" Visibility="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
-                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" Visibility="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
+                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource StopEnabledStateConverter}}"/>
+                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
+                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
