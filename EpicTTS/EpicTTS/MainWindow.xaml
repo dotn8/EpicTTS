@@ -21,7 +21,7 @@
                 <fluent:RibbonGroupBox Name="Default" Header="Voice" MinWidth="200">
                     <StackPanel Orientation="Horizontal">
                         <Label Target="{Binding ElementName=VoiceComboBox}" Margin="5">Voice:</Label>
-                        <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5">
+                        <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5" SelectedItem="{Binding Path=SelectedVoice}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=VoiceInfo.Name}"/>
