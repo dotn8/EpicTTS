@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Speech.Synthesis;
@@ -8,7 +9,7 @@ using FirstFloor.ModernUI.Presentation;
 
 namespace EpicTTS.Models
 {
-    public class MainModel : INotifyPropertyChanged
+    public class MainModel : INotifyPropertyChanged, IDisposable
     {
         private readonly SpeechSynthesizer _synthesizer;
         private InstalledVoice _selectedVoice;
@@ -92,6 +93,11 @@ namespace EpicTTS.Models
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Dispose()
+        {
+            _synthesizer.Dispose();
         }
     }
 }

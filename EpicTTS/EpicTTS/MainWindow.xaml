@@ -5,7 +5,7 @@
         xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
         xmlns:converters="clr-namespace:EpicTTS.Converters"
         xmlns:synthesis="clr-namespace:System.Speech.Synthesis;assembly=System.Speech"
-        Title="EpicTTS" Grid.IsSharedSizeScope="True">
+        Title="EpicTTS" Grid.IsSharedSizeScope="True" Closed="Window_Closed">
     <Window.Resources>
         <ControlTemplate x:Key="ListVoiceDataTemplate">
             <Grid>
@@ -44,6 +44,11 @@
             <Visibility x:Key="{x:Static synthesis:SynthesizerState.Speaking}">Visible</Visibility>
             <Visibility x:Key="{x:Static synthesis:SynthesizerState.Paused}">Hidden</Visibility>
         </converters:DictionaryConverter>
+        <converters:DictionaryConverter x:Key="PlayEnabledStateConverter">
+            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Ready}">Visible</Visibility>
+            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Speaking}">Hidden</Visibility>
+            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Paused}">Visible</Visibility>
+        </converters:DictionaryConverter>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -71,7 +76,7 @@
                 <fluent:RibbonGroupBox Name="Other" Header="Output">
                     <StackPanel Orientation="Horizontal">
                         <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}"/>
-                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" Visibility="{Binding Path=State}"/>
+                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" Visibility="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
                         <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" Visibility="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
