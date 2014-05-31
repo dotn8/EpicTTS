@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         xmlns:fluent="clr-namespace:Fluent;assembly=Fluent"
+        xmlns:converters="clr-namespace:EpicTTS.Converters"
+        xmlns:synthesis="clr-namespace:System.Speech.Synthesis;assembly=System.Speech"
         Title="EpicTTS" Grid.IsSharedSizeScope="True">
     <Window.Resources>
         <ControlTemplate x:Key="ListVoiceDataTemplate">
@@ -37,6 +39,11 @@
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
+        <converters:DictionaryConverter x:Key="PauseEnabledStateConverter">
+            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Ready}">Hidden</Visibility>
+            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Speaking}">Visible</Visibility>
+            <Visibility x:Key="{x:Static synthesis:SynthesizerState.Paused}">Hidden</Visibility>
+        </converters:DictionaryConverter>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -62,13 +69,15 @@
                 </fluent:RibbonGroupBox>
 
                 <fluent:RibbonGroupBox Name="Other" Header="Output">
-                    <StackPanel Orientation="Vertical">
-                        <Button Content="Speak"></Button>
+                    <StackPanel Orientation="Horizontal">
+                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}"/>
+                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" Visibility="{Binding Path=State}"/>
+                        <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" Visibility="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
             </fluent:RibbonTabItem>
         </fluent:Ribbon>
-        <TextBox Grid.Row="1" Text="{Binding Path=Text}"/>
+        <TextBox Grid.Row="1" Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>
