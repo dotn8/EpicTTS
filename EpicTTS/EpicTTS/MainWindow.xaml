@@ -18,7 +18,7 @@
                 </fluent:RibbonGroupBox>
 
                 <!--By default ReduceOrder="Large, Middle, Small"-->
-                <fluent:RibbonGroupBox Name="Default" Header="Voice">
+                <fluent:RibbonGroupBox Name="Default" Header="Voice" MinWidth="200">
                     <StackPanel Orientation="Horizontal">
                         <Label Target="{Binding ElementName=VoiceComboBox}" Margin="5">Voice:</Label>
                         <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5">
@@ -28,6 +28,11 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ElementName=VoiceComboBox, Path=SelectedItem.VoiceInfo.Age}" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding ElementName=VoiceComboBox, Path=SelectedItem.VoiceInfo.Gender}" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding ElementName=VoiceComboBox, Path=SelectedItem.VoiceInfo.Culture.DisplayName}" Margin="0,0,10,0"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
