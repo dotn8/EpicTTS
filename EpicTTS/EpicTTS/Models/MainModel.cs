@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Speech.AudioFormat;
 using System.Speech.Synthesis;
 using EpicTTS.Annotations;
 
@@ -10,6 +11,7 @@ namespace EpicTTS.Models
     {
         private readonly SpeechSynthesizer _synthesizer;
         private InstalledVoice _selectedVoice;
+        private string _text;
         public IList<InstalledVoice> Voices { get; private set; }
 
         public MainModel()
@@ -37,6 +39,17 @@ namespace EpicTTS.Models
         private void InitializeVoices()
         {
             Voices = new List<InstalledVoice>(_synthesizer.GetInstalledVoices());
+        }
+
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                if (value == _text) return;
+                _text = value;
+                OnPropertyChanged();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -19,7 +19,6 @@
                 <TextBlock Grid.Column="3" Text="{Binding Path=VoiceInfo.Culture.DisplayName}"/>
             </Grid>
         </ControlTemplate>
-
         <ControlTemplate x:Key="SingleVoiceDataTemplate">
             <StackPanel Orientation="Vertical" Margin="10">
                 <TextBlock Text="{Binding Path=VoiceInfo.Name}"/>
@@ -30,7 +29,7 @@
                 </StackPanel>
             </StackPanel>
         </ControlTemplate>
-        <DataTemplate x:Key="CustomerTemplate">
+        <DataTemplate x:Key="VoiceComboBoxDataTemplate">
             <Control x:Name="theControl" Focusable="False" Template="{StaticResource ListVoiceDataTemplate}" />
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}" Value="{x:Null}">
@@ -40,6 +39,10 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <fluent:Ribbon CanCustomizeRibbon="False" CanCustomizeQuickAccessToolBar="False" CanQuickAccessLocationChanging="False" AutomaticStateManagement="False" IsQuickAccessToolBarVisible="False">
 
             <fluent:RibbonTabItem ReduceOrder="Default,Default,Default,Large,Large,Large,Other,Other,Other" Header="Home">
@@ -54,23 +57,18 @@
 
                 <!--By default ReduceOrder="Large, Middle, Small"-->
                 <fluent:RibbonGroupBox Name="Default" Header="Voice" MinWidth="200">
-                    <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5" SelectedItem="{Binding Path=SelectedVoice}" ItemTemplate="{StaticResource CustomerTemplate}"/>
+                    <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5"
+                              SelectedItem="{Binding Path=SelectedVoice}" ItemTemplate="{StaticResource VoiceComboBoxDataTemplate}"/>
                 </fluent:RibbonGroupBox>
 
                 <fluent:RibbonGroupBox Name="Other" Header="Output">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Target="{Binding ElementName=VoiceComboBox}" Margin="5">Voice:</Label>
-                        <ComboBox x:Name="AudioFormatComboBox" ItemsSource="{Binding Path=SelectedVoice.VoiceInfo.SupportedAudioFormats}" MinWidth="150" Margin="5" SelectedItem="{Binding Path=SelectedAudioFormat}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=VoiceInfo.Name}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                    <StackPanel Orientation="Vertical">
+                        <Button Content="Speak"></Button>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
             </fluent:RibbonTabItem>
         </fluent:Ribbon>
+        <TextBox Grid.Row="1" Text="{Binding Path=Text}"/>
     </Grid>
 </Window>
