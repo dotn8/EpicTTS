@@ -16,7 +16,7 @@ namespace EpicTTS.Models
 
         public string Description
         {
-            get { return "Export to " + FilePath; }
+            get { return "Export to file"; }
         }
 
         public bool IsSelected
@@ -49,11 +49,7 @@ namespace EpicTTS.Models
         public string FilePath
         {
             get { return GetProperty(ref _filePath); }
-            set
-            {
-                if (SetProperty(ref _filePath, value))
-                    OnPropertyChanged("Description");
-            }
+            set { SetProperty(ref _filePath, value); }
         }
 
         public ExportToFile()
@@ -66,7 +62,10 @@ namespace EpicTTS.Models
         {
             if (String.IsNullOrWhiteSpace(FilePath) || !new FileInfo(FilePath).Directory.Exists)
                 Browse();
-            SpeechSynthesizer.SetOutputToWaveFile(FilePath);
+            if (String.IsNullOrWhiteSpace(FilePath))
+                SpeechSynthesizer.SetOutputToNull();
+            else
+                SpeechSynthesizer.SetOutputToWaveFile(FilePath);
         }
 
         private void Browse()
