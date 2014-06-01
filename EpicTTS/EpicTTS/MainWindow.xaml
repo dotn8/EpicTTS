@@ -67,10 +67,18 @@
 
                 <!--You can set short form (for ex, "Middle" is equal "Middle,Middle,Middle")-->
                 <fluent:RibbonGroupBox Name="Large" Header="Input">
-                    <fluent:Button SizeDefinition="Large" Header="Green" Icon="Images\Green.png" LargeIcon="Images\GreenLarge.png" />
-                    <fluent:Button SizeDefinition="Large" Header="Grey" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" />
-                    <fluent:Button SizeDefinition="Large" Header="Grey" Icon="Images\Yellow.png" LargeIcon="Images\YellowLarge.png" />
-                    <fluent:Button SizeDefinition="Large" Header="Grey" Icon="Images\Brown.png" LargeIcon="Images\BrownLarge.png" />
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Target="{Binding ElementName=FilePathTextBox}" Margin="0,0,10,0">File:</Label>
+                            <TextBox Grid.Column="1" Name="FilePathTextBox" Text="{Binding Document.FilePath}"/>
+                            <Button Grid.Column="2" Command="{Binding Path=Document.BrowseCommand}">...</Button>
+                        </Grid>
+                    </StackPanel>
                 </fluent:RibbonGroupBox>
 
                 <!--By default ReduceOrder="Large, Middle, Small"-->
