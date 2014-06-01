@@ -7,7 +7,7 @@
 !define APP_NAME "EpicTTS"
 !define COMP_NAME "ApocalypticOctopus"
 !define WEB_SITE "https://github.com/ApocalypticOctopus/EpicTTS"
-!define VERSION "00.00.01.00"
+!define VERSION "1.0.0.1"
 !define COPYRIGHT "ApocalypticOctopus  © 2014"
 !define DESCRIPTION "Straightforward, powerful text-to-speech"
 !define LICENSE_TXT "LICENSE.txt"
