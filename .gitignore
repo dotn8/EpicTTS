@@ -5,6 +5,8 @@
 # Eliminate audio files so that they don't get accidentally added to git.
 *.wav
 
+EpicTTS.Installer/setup.exe
+
 #################
 ## Eclipse
 #################
