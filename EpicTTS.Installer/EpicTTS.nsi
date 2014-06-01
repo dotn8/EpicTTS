@@ -11,7 +11,7 @@
 !define COPYRIGHT "ApocalypticOctopus © 2014"
 !define DESCRIPTION "Straightforward, powerful text-to-speech"
 !define LICENSE_TXT "LICENSE.txt"
-!define INSTALLER_NAME "setup.exe"
+!define INSTALLER_NAME "EpicTTS-v0.9.0-setup.exe"
 !define MAIN_APP_EXE "EpicTTS.exe"
 !define INSTALL_TYPE "SetShellVarContext all"
 !define REG_ROOT "HKLM"
