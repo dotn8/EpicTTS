@@ -71,6 +71,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Models\ObservableObject.cs" />
+    <Compile Include="Models\TextDocument.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

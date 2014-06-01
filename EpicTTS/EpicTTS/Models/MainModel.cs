@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Speech.Synthesis;
 using System.Windows.Input;
-using EpicTTS.Annotations;
 using FirstFloor.ModernUI.Presentation;
 
 namespace EpicTTS.Models
 {
-    public class MainModel : INotifyPropertyChanged, IDisposable
+    public class MainModel : ObservableObject, IDisposable
     {
         private SpeechSynthesizer _synthesizer;
         private InstalledVoice _selectedVoice;
-        private string _text;
+        private TextDocument _document;
         public IList<InstalledVoice> Voices { get; private set; }
         public ICommand SpeakCommand { get; private set; }
         public ICommand StopSpeakingCommand { get; private set; }
         public ICommand PauseSpeakingCommand { get; private set; }
-        public SynthesizerState State { get { return _synthesizer.State; } }
+
+        public SynthesizerState State
+        {
+            get { return _synthesizer.State; }
+        }
 
         public MainModel()
         {
@@ -40,7 +41,7 @@ namespace EpicTTS.Models
             if (_synthesizer.State == SynthesizerState.Paused)
                 _synthesizer.Resume();
             else
-                _synthesizer.SpeakAsync(Text);
+                _synthesizer.SpeakAsync(Document.AsPrompt());
         }
 
         private void StopSpeaking(object obj)
@@ -55,19 +56,17 @@ namespace EpicTTS.Models
             InitializeSynthesizer();
             InitializeVoices();
             InitializeSelectedVoice();
-            InitializeText();
+            InitializeDocument();
             InitializeCommands();
         }
 
         public InstalledVoice SelectedVoice
         {
-            get { return _selectedVoice; }
+            get { return GetProperty(ref _selectedVoice); }
             set
             {
-                if (Equals(value, _selectedVoice)) return;
-                _selectedVoice = value;
+                SetProperty(out _selectedVoice, value);
                 _synthesizer.SelectVoice(_selectedVoice.VoiceInfo.Name);
-                OnPropertyChanged();
             }
         }
 
@@ -87,9 +86,12 @@ namespace EpicTTS.Models
             SelectedVoice = Voices[0];
         }
 
-        private void InitializeText()
+        private void InitializeDocument()
         {
-            Text = "";
+            Document = new TextDocument();
+            var commandLineArguments = Environment.GetCommandLineArgs();
+            if (commandLineArguments.Length > 1)
+                Document.Open(commandLineArguments[1]);
         }
 
         private void InitializeCommands()
@@ -99,24 +101,10 @@ namespace EpicTTS.Models
             PauseSpeakingCommand = new RelayCommand(PauseSpeaking);
         }
 
-        public string Text
+        public TextDocument Document
         {
-            get { return _text; }
-            set
-            {
-                if (value == _text) return;
-                _text = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            get { return GetProperty(ref _document); }
+            set { SetProperty(out _document, value); }
         }
 
         public void Dispose()

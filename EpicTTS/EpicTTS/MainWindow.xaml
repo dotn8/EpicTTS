@@ -95,6 +95,6 @@
 
             </fluent:RibbonTabItem>
         </fluent:Ribbon>
-        <TextBox Grid.Row="1" Text="{Binding Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Text="{Binding Path=Document.Text, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>
