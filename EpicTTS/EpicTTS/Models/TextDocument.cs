@@ -1,8 +1,6 @@
-using System;
 using System.IO;
 using System.Speech.Synthesis;
 using System.Windows.Input;
-using System.Windows.Interop;
 using FirstFloor.ModernUI.Presentation;
 
 namespace EpicTTS.Models
@@ -16,13 +14,13 @@ namespace EpicTTS.Models
         public string Text
         {
             get { return GetProperty(ref _text); }
-            set { SetProperty(out _text, value); }
+            set { SetProperty(ref _text, value); }
         }
 
         public string FilePath
         {
             get { return GetProperty(ref _filePath); }
-            set { SetProperty(out _filePath, value); }
+            set { SetProperty(ref _filePath, value); }
         }
 
         public TextDocument()

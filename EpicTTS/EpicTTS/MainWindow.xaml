@@ -6,8 +6,24 @@
         xmlns:converters="clr-namespace:EpicTTS.Converters"
         xmlns:synthesis="clr-namespace:System.Speech.Synthesis;assembly=System.Speech"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:models="clr-namespace:EpicTTS.Models"
         Title="EpicTTS" Grid.IsSharedSizeScope="True" Closed="Window_Closed">
     <Window.Resources>
+        <DataTemplate DataType="{x:Type models:ExportToFile}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Target="{Binding ElementName=FileExportFilePathTextBox}" Margin="0,0,10,0">File:</Label>
+                <TextBox Grid.Column="1" Name="FileExportFilePathTextBox" Text="{Binding FilePath}"/>
+                <Button Grid.Column="2" Command="{Binding Path=BrowseCommand}">...</Button>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:ExportToDefaultAudioDevice}">
+            <TextBlock Text="No properties"/>
+        </DataTemplate>
         <ControlTemplate x:Key="ListVoiceDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -63,10 +79,10 @@
         </Grid.RowDefinitions>
         <fluent:Ribbon CanCustomizeRibbon="False" CanCustomizeQuickAccessToolBar="False" CanQuickAccessLocationChanging="False" AutomaticStateManagement="False" IsQuickAccessToolBarVisible="False">
 
-            <fluent:RibbonTabItem ReduceOrder="Default,Default,Default,Large,Large,Large,Other,Other,Other" Header="Home">
+            <fluent:RibbonTabItem ReduceOrder="Input,Voice,Playback,FileOutput" Header="Home">
 
                 <!--You can set short form (for ex, "Middle" is equal "Middle,Middle,Middle")-->
-                <fluent:RibbonGroupBox Name="Large" Header="Input">
+                <fluent:RibbonGroupBox Name="Input" Header="Input">
                     <StackPanel Orientation="Vertical">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -74,20 +90,20 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Target="{Binding ElementName=FilePathTextBox}" Margin="0,0,10,0">File:</Label>
-                            <TextBox Grid.Column="1" Name="FilePathTextBox" Text="{Binding Document.FilePath}"/>
+                            <Label Grid.Column="0" Target="{Binding ElementName=ImportFilePathTextBox}" Margin="0,0,10,0">File:</Label>
+                            <TextBox Grid.Column="1" Name="ImportFilePathTextBox" Text="{Binding Document.FilePath}"/>
                             <Button Grid.Column="2" Command="{Binding Path=Document.BrowseCommand}">...</Button>
                         </Grid>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
                 <!--By default ReduceOrder="Large, Middle, Small"-->
-                <fluent:RibbonGroupBox Name="Default" Header="Voice" MinWidth="200">
+                <fluent:RibbonGroupBox Name="Voice" Header="Voice" MinWidth="200">
                     <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5"
                               SelectedItem="{Binding Path=SelectedVoice}" ItemTemplate="{StaticResource VoiceComboBoxDataTemplate}"/>
                 </fluent:RibbonGroupBox>
 
-                <fluent:RibbonGroupBox Name="Other" Header="Live playback">
+                <fluent:RibbonGroupBox Name="Playback" Header="Playback">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Label Target="{Binding ElementName=StateTextBlock}" Margin="0,0,10,0">State:</Label>
@@ -98,6 +114,20 @@
                             <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
                             <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
                         </StackPanel>
+                    </StackPanel>
+                </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox Name="FileExport" Header="File output">
+                    <StackPanel Orientation="Vertical">
+                        <ComboBox x:Name="ExportComboBox" ItemsSource="{Binding Path=Exports}" MinWidth="150" Margin="5"
+                              SelectedItem="{Binding Path=SelectedExport}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Description}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ContentControl Content="{Binding Path=SelectedExport}"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 

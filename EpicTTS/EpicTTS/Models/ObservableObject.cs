@@ -13,10 +13,14 @@ namespace EpicTTS.Models
             return t;
         }
 
-        protected virtual void SetProperty<T>(out T t, T value, [CallerMemberName] string propertyName = null)
+        protected virtual bool SetProperty<T>(ref T t, T value, [CallerMemberName] string propertyName = null)
         {
+            var original = t;
             t = value;
+            if (Equals(original, t))
+                return false;
             OnPropertyChanged(propertyName);
+            return true;
         }
 
         [NotifyPropertyChangedInvocator]
