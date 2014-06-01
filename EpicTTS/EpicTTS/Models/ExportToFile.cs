@@ -11,6 +11,7 @@ namespace EpicTTS.Models
     {
         private string _filePath;
         private SpeechSynthesizer _speechSynthesizer;
+        private bool _isSelected;
         public ICommand BrowseCommand { get; set; }
 
         public string Description
@@ -18,10 +19,31 @@ namespace EpicTTS.Models
             get { return "Export to " + FilePath; }
         }
 
+        public bool IsSelected
+        {
+            get { return GetProperty(ref _isSelected); }
+            set { SetProperty(ref _isSelected, value); }
+        }
+
         public SpeechSynthesizer SpeechSynthesizer
         {
             get { return GetProperty(ref _speechSynthesizer); }
-            set { SetProperty(ref _speechSynthesizer, value); }
+            set
+            {
+                var oldValue = _speechSynthesizer;
+                if (SetProperty(ref _speechSynthesizer, value))
+                {
+                    if (oldValue != null)
+                        oldValue.SpeakCompleted -= OnSpeakCompleted;
+                    if (value != null)
+                        value.SpeakCompleted += OnSpeakCompleted;
+                }
+            }
+        }
+
+        private void OnSpeakCompleted(object sender, SpeakCompletedEventArgs speakCompletedEventArgs)
+        {
+            SpeechSynthesizer.SetOutputToNull();
         }
 
         public string FilePath

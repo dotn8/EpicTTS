@@ -29,7 +29,11 @@ namespace EpicTTS.Models
                 if (SetProperty(ref _selectedExport, value))
                 {
                     if (State != SynthesizerState.Ready)
+                    {
                         StopSpeaking(null);
+                        Exports.ForEach(export => export.IsSelected = false);
+                        value.IsSelected = true;
+                    }
                     value.Export();
                 }
             }
@@ -60,7 +64,10 @@ namespace EpicTTS.Models
             if (_synthesizer.State == SynthesizerState.Paused)
                 _synthesizer.Resume();
             else
+            {
+                SelectedExport.Export();
                 _synthesizer.SpeakAsync(Document.AsPrompt());
+            }
         }
 
         private void StopSpeaking(object obj)
