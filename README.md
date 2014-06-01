@@ -8,13 +8,4 @@ EpicTTS is an open source software for all things text-to-speech. This software 
 
 Eventually, EpicTTS will solve all these problems. For now, it's a great way to do simple text-to-speech.
 
-The current version of EpicTTS is 1.0.0.1. EpicTTS uses the versioning scheme described [here](https://en.wikipedia.org/wiki/Software_versioning#Designating_development_stage).
-
-The third number indicates the stability of a release:
-
-* 0 for alpha
-* 1 for beta
-* 2 for release candidate
-* 3 for final release
-
-So the current version, 1.0.0.1, is the first alpha for version 1.0.
+The current version of EpicTTS is 0.9.0. EpicTTS uses [semantic versioning](http://semver.org/).
