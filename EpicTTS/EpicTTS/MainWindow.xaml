@@ -1,4 +1,4 @@
-﻿<Window x:Class="EpicTTS.MainWindow"
+﻿<fluent:RibbonWindow x:Class="EpicTTS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
@@ -8,7 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:models="clr-namespace:EpicTTS.Models"
         Title="EpicTTS" Grid.IsSharedSizeScope="True" Closed="Window_Closed">
-    <Window.Resources>
+    <fluent:RibbonWindow.Resources>
         <DataTemplate DataType="{x:Type models:ExportToFile}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -21,9 +21,7 @@
                 <Button Grid.Column="2" Command="{Binding Path=BrowseCommand}">...</Button>
             </Grid>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type models:ExportToDefaultAudioDevice}">
-            <TextBlock Text="No properties"/>
-        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:ExportToDefaultAudioDevice}"/>
         <ControlTemplate x:Key="ListVoiceDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -71,7 +69,7 @@
             <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Speaking}">True</system:Boolean>
             <system:Boolean x:Key="{x:Static synthesis:SynthesizerState.Paused}">True</system:Boolean>
         </converters:DictionaryConverter>
-    </Window.Resources>
+    </fluent:RibbonWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -135,4 +133,4 @@
         </fluent:Ribbon>
         <TextBox Grid.Row="1" Text="{Binding Path=Document.Text, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
-</Window>
+</fluent:RibbonWindow>
