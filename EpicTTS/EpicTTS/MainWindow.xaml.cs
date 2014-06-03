@@ -7,9 +7,9 @@ namespace EpicTTS
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow()
+        public MainWindow(Options options)
         {
-            DataContext = new MainModel();
+            DataContext = new MainModel(options);
             InitializeComponent();
         }
 

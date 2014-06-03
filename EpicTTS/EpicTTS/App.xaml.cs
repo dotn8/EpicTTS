@@ -1,17 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using EpicTTS.Models;
 
 namespace EpicTTS
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var options = new Options();
+            if (!CommandLine.Parser.Default.ParseArguments(Environment.GetCommandLineArgs(), options))
+                return;
+
+            if (options.Headless)
+            {
+                var model = new MainModel(options);
+                model.Speak();
+                Environment.Exit(0);
+            }
+            else
+            {
+                var mainWindow = new MainWindow(options);
+                mainWindow.Show();
+            }
+
+            base.OnStartup(e);
+        }
     }
 }

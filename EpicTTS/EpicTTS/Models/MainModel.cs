@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Windows.Input;
@@ -44,9 +45,39 @@ namespace EpicTTS.Models
             get { return _synthesizer.State; }
         }
 
-        public MainModel()
+        public MainModel(Options options)
         {
-            Initialize();
+            _synthesizer = new SpeechSynthesizer();
+            _synthesizer.StateChanged += StateChanged;
+
+            Voices = new List<InstalledVoice>(_synthesizer.GetInstalledVoices());
+            SelectedVoice = Voices[0];
+
+            var commandLineArguments = Environment.GetCommandLineArgs();
+
+            Document = new TextDocument();
+            if (File.Exists(options.InputPath))
+                Document.Open(options.InputPath);
+
+            var exportToFilePath = "";
+            if (!String.IsNullOrWhiteSpace(options.OutputPath))
+                exportToFilePath = options.OutputPath;
+            else if (commandLineArguments.Length > 1)
+                exportToFilePath = commandLineArguments[1] + ".wav";
+            Exports = new ObservableCollection<IExport>
+            {
+                new ExportToDefaultAudioDevice(),
+                new ExportToFile{FilePath = exportToFilePath},
+            };
+            Exports.ForEach(export => export.SpeechSynthesizer = _synthesizer);
+            if (!String.IsNullOrWhiteSpace(options.OutputPath))
+                SelectedExport = Exports[1];
+            else
+                SelectedExport = Exports[0];
+
+            SpeakCommand = new RelayCommand(Speak);
+            StopSpeakingCommand = new RelayCommand(StopSpeaking);
+            PauseSpeakingCommand = new RelayCommand(PauseSpeaking);
         }
 
         private void PauseSpeaking(object obj)
@@ -57,6 +88,11 @@ namespace EpicTTS.Models
         private void StateChanged(object sender, StateChangedEventArgs e)
         {
             OnPropertyChanged("State");
+        }
+
+        public void Speak()
+        {
+            _synthesizer.Speak(Document.AsPrompt());
         }
 
         private void Speak(object obj)
@@ -75,38 +111,6 @@ namespace EpicTTS.Models
             if (_synthesizer.State == SynthesizerState.Paused)
                 _synthesizer.Resume();
             _synthesizer.SpeakAsyncCancelAll();
-        }
-
-        private void Initialize()
-        {
-            _synthesizer = new SpeechSynthesizer();
-            _synthesizer.StateChanged += StateChanged;
-
-            Voices = new List<InstalledVoice>(_synthesizer.GetInstalledVoices());
-            SelectedVoice = Voices[0];
-
-            var commandLineArguments = Environment.GetCommandLineArgs();
-
-            Document = new TextDocument();
-            if (commandLineArguments.Length > 1)
-                Document.Open(commandLineArguments[1]);
-
-            var exportToFilePath = "";
-            if (commandLineArguments.Length > 2)
-                exportToFilePath = commandLineArguments[2];
-            else if (commandLineArguments.Length > 1)
-                exportToFilePath = commandLineArguments[1] + ".wav";
-            Exports = new ObservableCollection<IExport>
-            {
-                new ExportToDefaultAudioDevice(),
-                new ExportToFile{FilePath = exportToFilePath},
-            };
-            Exports.ForEach(export => export.SpeechSynthesizer = _synthesizer);
-            SelectedExport = Exports[0];
-
-            SpeakCommand = new RelayCommand(Speak);
-            StopSpeakingCommand = new RelayCommand(StopSpeaking);
-            PauseSpeakingCommand = new RelayCommand(PauseSpeaking);
         }
 
         public InstalledVoice SelectedVoice
