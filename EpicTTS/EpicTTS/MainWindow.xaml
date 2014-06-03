@@ -7,6 +7,8 @@
         xmlns:synthesis="clr-namespace:System.Speech.Synthesis;assembly=System.Speech"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:models="clr-namespace:EpicTTS.Models"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
         Title="EpicTTS" Grid.IsSharedSizeScope="True" Closed="Window_Closed">
     <fluent:RibbonWindow.Resources>
         <DataTemplate DataType="{x:Type models:ExportToFile}">
@@ -15,10 +17,19 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Target="{Binding ElementName=FileExportFilePathTextBox}" Margin="0,0,10,0">File:</Label>
                 <TextBox Grid.Column="1" Name="FileExportFilePathTextBox" Text="{Binding FilePath}"/>
-                <Button Grid.Column="2" Command="{Binding Path=BrowseCommand}">...</Button>
+                <Button Grid.Column="2" Command="{Binding Path=BrowseCommand}" Name="ExportFilePathBrowseButton">...
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseRightButtonDown">
+                            <command:EventToCommand Command="{Binding ShowContextMenuCommand, Mode=OneWay}"
+                                                    CommandParameter="{Binding ElementName=ExportFilePathBrowseButton, Mode=OneWay}"
+                                                    MustToggleIsEnabledValue="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type models:ExportToDefaultAudioDevice}"/>
@@ -90,7 +101,15 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Target="{Binding ElementName=ImportFilePathTextBox}" Margin="0,0,10,0">File:</Label>
                             <TextBox Grid.Column="1" Name="ImportFilePathTextBox" Text="{Binding Document.FilePath}"/>
-                            <Button Grid.Column="2" Command="{Binding Path=Document.BrowseCommand}">...</Button>
+                            <Button Grid.Column="2" Command="{Binding Path=Document.BrowseCommand}" Name="DocumentBrowseButton">...
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseRightButtonDown">
+                                        <command:EventToCommand Command="{Binding Document.ShowContextMenuCommand, Mode=OneWay}"
+                                                    CommandParameter="{Binding ElementName=DocumentBrowseButton, Mode=OneWay}"
+                                                    MustToggleIsEnabledValue="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
                         </Grid>
                     </StackPanel>
                 </fluent:RibbonGroupBox>

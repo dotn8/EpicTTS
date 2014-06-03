@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Speech.Synthesis;
 using System.Windows.Input;
 using EpicTTS.Utility;
@@ -53,8 +52,6 @@ namespace EpicTTS.Models
             Voices = new List<InstalledVoice>(_synthesizer.GetInstalledVoices());
             SelectedVoice = Voices[0];
 
-            var commandLineArguments = Environment.GetCommandLineArgs();
-
             Document = new TextDocument();
             if (File.Exists(options.InputPath))
                 Document.Open(options.InputPath);
@@ -62,8 +59,8 @@ namespace EpicTTS.Models
             var exportToFilePath = "";
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
                 exportToFilePath = options.OutputPath;
-            else if (commandLineArguments.Length > 1)
-                exportToFilePath = commandLineArguments[1] + ".wav";
+            else if (options.InputPath.Length > 1)
+                exportToFilePath = options.InputPath + ".wav";
             Exports = new ObservableCollection<IExport>
             {
                 new ExportToDefaultAudioDevice(),

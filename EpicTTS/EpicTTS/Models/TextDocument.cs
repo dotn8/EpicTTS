@@ -1,6 +1,9 @@
 using System.IO;
 using System.Speech.Synthesis;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using EpicTTS.Utility;
 using FirstFloor.ModernUI.Presentation;
 
 namespace EpicTTS.Models
@@ -10,6 +13,7 @@ namespace EpicTTS.Models
         private string _filePath;
         private string _text;
         public ICommand BrowseCommand { get; private set; }
+        public ICommand ShowContextMenuCommand { get; set; }
 
         public string Text
         {
@@ -27,6 +31,14 @@ namespace EpicTTS.Models
         {
             Text = "";
             BrowseCommand = new RelayCommand(obj => Browse());
+            ShowContextMenuCommand = new RelayCommand(ShowContextMenu);
+        }
+
+        private void ShowContextMenu(object obj)
+        {
+            var button = (Button) obj;
+            var shellContextMenu = new ShellContextMenu();
+            shellContextMenu.ShowContextMenu(new[] { new FileInfo(FilePath) }, button.PointToScreen(new Point(0, 0)));
         }
 
         private void Browse()
