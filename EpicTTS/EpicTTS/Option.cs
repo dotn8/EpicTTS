@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using CommandLine.Text;
 
 namespace EpicTTS
 {
@@ -12,5 +13,15 @@ namespace EpicTTS
 
         [Option('o', "output", HelpText = "Specifies the path to the output file to be spoken.")]
         public string OutputPath { get; set; }
+
+        [ParserState]
+        public IParserState LastParserState { get; set; }
+
+        [HelpOption]
+        public string GetUsage()
+        {
+            return HelpText.AutoBuild(this,
+              (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+        }
     }
 }

@@ -10,7 +10,11 @@ namespace EpicTTS
         {
             var options = new Options();
             if (!CommandLine.Parser.Default.ParseArguments(Environment.GetCommandLineArgs(), options))
-                return;
+            {
+                Console.Error.Write(options.GetUsage());
+                MessageBox.Show(options.GetUsage());
+                Environment.Exit(1);
+            }
 
             if (options.Headless)
             {
