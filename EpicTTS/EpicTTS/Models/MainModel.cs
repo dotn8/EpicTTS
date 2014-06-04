@@ -59,7 +59,7 @@ namespace EpicTTS.Models
             var exportToFilePath = "";
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
                 exportToFilePath = options.OutputPath;
-            else if (options.InputPath.Length > 1)
+            else if (!String.IsNullOrWhiteSpace(options.InputPath))
                 exportToFilePath = options.InputPath + ".wav";
             Exports = new ObservableCollection<IExport>
             {
