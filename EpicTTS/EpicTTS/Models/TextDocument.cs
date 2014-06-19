@@ -8,7 +8,7 @@ using EpicTTS.Utility;
 
 namespace EpicTTS.Models
 {
-    public class TextDocument : ObservableObject
+    public class TextDocument
     {
         public ReactiveCommand BrowseCommand { get; private set; }
         public ReactiveCommand ShowContextMenuCommand { get; set; }

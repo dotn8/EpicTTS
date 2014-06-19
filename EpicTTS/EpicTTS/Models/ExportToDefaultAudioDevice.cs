@@ -1,41 +1,29 @@
+using System;
 using System.Speech.Synthesis;
-using System.Windows.Input;
-using FirstFloor.ModernUI.Presentation;
+using Codeplex.Reactive;
 
 namespace EpicTTS.Models
 {
-    public class ExportToDefaultAudioDevice : ObservableObject, IExport
+    public class ExportToDefaultAudioDevice : IExport
     {
-        private SpeechSynthesizer _speechSynthesizer;
-        private bool _isSelected;
-
-        public SpeechSynthesizer SpeechSynthesizer
-        {
-            get { return GetProperty(ref _speechSynthesizer); }
-            set { SetProperty(ref _speechSynthesizer, value); }
-        }
-
-        public bool IsSelected
-        {
-            get { return GetProperty(ref _isSelected); }
-            set { SetProperty(ref _isSelected, value); }
-        }
-
-        public string Description
-        {
-            get { return "Export to default audio device"; }
-        }
-
-        public ICommand BrowseCommand { get; private set; }
+        public ReactiveProperty<SpeechSynthesizer> SpeechSynthesizer { get; private set; }
+        public ReactiveProperty<bool> IsSelected { get; private set; }
+        public ReactiveProperty<string> Description { get; private set; }
+        public ReactiveCommand ExportCommand { get; private set; }
 
         public ExportToDefaultAudioDevice()
         {
-            BrowseCommand = new RelayCommand(obj => Export());
+            SpeechSynthesizer = new ReactiveProperty<SpeechSynthesizer>();
+            IsSelected = new ReactiveProperty<bool>();
+            Description = new ReactiveProperty<string>("Export to default audio device");
+
+            ExportCommand = new ReactiveCommand();
+            ExportCommand.Subscribe(Export);
         }
 
-        public void Export()
+        public void Export(object obj)
         {
-            SpeechSynthesizer.SetOutputToDefaultAudioDevice();
+            SpeechSynthesizer.Value.SetOutputToDefaultAudioDevice();
         }
     }
 }

@@ -31,10 +31,10 @@ namespace EpicTTS.Models
                     if (State != SynthesizerState.Ready)
                     {
                         StopSpeaking(null);
-                        Exports.ForEach(export => export.IsSelected = false);
-                        value.IsSelected = true;
+                        Exports.ForEach(export => export.IsSelected.Value = false);
+                        value.IsSelected.Value = true;
                     }
-                    value.Export();
+                    value.ExportCommand.Execute();
                 }
             }
         }
@@ -64,9 +64,9 @@ namespace EpicTTS.Models
             Exports = new ObservableCollection<IExport>
             {
                 new ExportToDefaultAudioDevice(),
-                new ExportToFile{FilePath = exportToFilePath},
+                new ExportToFile{FilePath = { Value = exportToFilePath}},
             };
-            Exports.ForEach(export => export.SpeechSynthesizer = _synthesizer);
+            Exports.ForEach(export => export.SpeechSynthesizer.Value = _synthesizer);
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
                 SelectedExport = Exports[1];
             else
@@ -98,7 +98,7 @@ namespace EpicTTS.Models
                 _synthesizer.Resume();
             else
             {
-                SelectedExport.Export();
+                SelectedExport.ExportCommand.Execute();
                 _synthesizer.SpeakAsync(Document.AsPrompt());
             }
         }

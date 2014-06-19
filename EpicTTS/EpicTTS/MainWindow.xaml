@@ -61,7 +61,7 @@
         <DataTemplate x:Key="VoiceComboBoxDataTemplate">
             <Control x:Name="theControl" Focusable="False" Template="{StaticResource ListVoiceDataTemplate}" />
             <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}" Value="{x:Null}">
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected.Value}" Value="{x:Null}">
                     <Setter TargetName="theControl" Property="Template" Value="{StaticResource SingleVoiceDataTemplate}" />
                 </DataTrigger>
             </DataTemplate.Triggers>
@@ -141,7 +141,7 @@
                               SelectedItem="{Binding Path=SelectedExport}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Description}"/>
+                                    <TextBlock Text="{Binding Path=Description.Value}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>

@@ -1,13 +1,13 @@
-using System.ComponentModel;
 using System.Speech.Synthesis;
+using Codeplex.Reactive;
 
 namespace EpicTTS.Models
 {
-    public interface IExport : INotifyPropertyChanged
+    public interface IExport
     {
-        SpeechSynthesizer SpeechSynthesizer { get; set; }
-        bool IsSelected { get; set; }
-        void Export();
-        string Description { get; }
+        ReactiveProperty<SpeechSynthesizer> SpeechSynthesizer { get; }
+        ReactiveProperty<bool> IsSelected { get; }
+        ReactiveProperty<string> Description { get; }
+        ReactiveCommand ExportCommand { get; }
     }
 }

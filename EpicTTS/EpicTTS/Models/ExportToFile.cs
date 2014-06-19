@@ -1,93 +1,77 @@
 using System;
 using System.IO;
-using System.Security.AccessControl;
+using System.Reactive.Linq;
 using System.Speech.Synthesis;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using Codeplex.Reactive;
 using EpicTTS.Utility;
 using FirstFloor.ModernUI.Presentation;
 using Microsoft.Win32;
 
 namespace EpicTTS.Models
 {
-    public class ExportToFile : ObservableObject, IExport
+    public class ExportToFile : IExport
     {
-        private string _filePath;
-        private SpeechSynthesizer _speechSynthesizer;
-        private bool _isSelected;
-        public ICommand BrowseCommand { get; set; }
-        public ICommand ShowContextMenuCommand { get; set; }
+        public ReactiveProperty<string> FilePath { get; private set; }
+        public ReactiveProperty<SpeechSynthesizer> SpeechSynthesizer { get; private set; }
+        public ReactiveProperty<bool> IsSelected { get; private set; }
+        public ReactiveCommand ExportCommand { get; private set; }
+        public ReactiveCommand BrowseCommand { get; private set; }
+        public ReactiveCommand ShellContextMenuCommand { get; private set; }
+        public ReactiveProperty<string> Description { get; private set; }
 
-        public string Description
+        private void OnSpeakCompleted(SpeakCompletedEventArgs speakCompletedEventArgs)
         {
-            get { return "Export to file"; }
-        }
-
-        public bool IsSelected
-        {
-            get { return GetProperty(ref _isSelected); }
-            set { SetProperty(ref _isSelected, value); }
-        }
-
-        public SpeechSynthesizer SpeechSynthesizer
-        {
-            get { return GetProperty(ref _speechSynthesizer); }
-            set
-            {
-                var oldValue = _speechSynthesizer;
-                if (SetProperty(ref _speechSynthesizer, value))
-                {
-                    if (oldValue != null)
-                        oldValue.SpeakCompleted -= OnSpeakCompleted;
-                    if (value != null)
-                        value.SpeakCompleted += OnSpeakCompleted;
-                }
-            }
-        }
-
-        private void OnSpeakCompleted(object sender, SpeakCompletedEventArgs speakCompletedEventArgs)
-        {
-            SpeechSynthesizer.SetOutputToNull();
-        }
-
-        public string FilePath
-        {
-            get { return GetProperty(ref _filePath); }
-            set { SetProperty(ref _filePath, value); }
+            SpeechSynthesizer.Value.SetOutputToNull();
         }
 
         public ExportToFile()
         {
-            _filePath = "";
-            BrowseCommand = new RelayCommand(obj => Browse());
-            ShowContextMenuCommand = new RelayCommand(ShowContextMenu);
+            FilePath = new ReactiveProperty<string>("");
+            SpeechSynthesizer = new ReactiveProperty<SpeechSynthesizer>();
+            IsSelected = new ReactiveProperty<bool>();
+            Description = new ReactiveProperty<string>("Export to file");
+            ExportCommand = new ReactiveCommand();
+            ExportCommand.Subscribe(Export);
+            BrowseCommand = new ReactiveCommand();
+            BrowseCommand.Subscribe(Browse);
+            ShellContextMenuCommand = new ReactiveCommand();
+            ShellContextMenuCommand.Subscribe(ShowContextMenu);
+
+            SpeechSynthesizer.Select(speechSynthesizer =>
+                Observable.FromEvent<EventHandler<SpeakCompletedEventArgs>, SpeakCompletedEventArgs>(
+                    handler => speechSynthesizer.SpeakCompleted += handler,
+                    handler => speechSynthesizer.SpeakCompleted -= handler))
+                .Merge()
+                .Subscribe(OnSpeakCompleted);
+
         }
 
         private void ShowContextMenu(object obj)
         {
             var button = (Button) obj;
             var shellContextMenu = new ShellContextMenu();
-            shellContextMenu.ShowContextMenu(new []{new FileInfo(FilePath)}, button.PointToScreen(new Point(0, 0)));
+            shellContextMenu.ShowContextMenu(new []{new FileInfo(FilePath.Value)}, button.PointToScreen(new Point(0, 0)));
         }
 
-        public void Export()
+        public void Export(object obj)
         {
-            if (String.IsNullOrWhiteSpace(FilePath) || !new FileInfo(FilePath).Directory.Exists)
-                Browse();
-            if (String.IsNullOrWhiteSpace(FilePath))
-                SpeechSynthesizer.SetOutputToNull();
+            if (String.IsNullOrWhiteSpace(FilePath.Value) || !new FileInfo(FilePath.Value).Directory.Exists)
+                Browse(obj);
+            if (String.IsNullOrWhiteSpace(FilePath.Value))
+                SpeechSynthesizer.Value.SetOutputToNull();
             else
-                SpeechSynthesizer.SetOutputToWaveFile(FilePath);
+                SpeechSynthesizer.Value.SetOutputToWaveFile(FilePath.Value);
         }
 
-        private void Browse()
+        private void Browse(object obj)
         {
             var dlg = new SaveFileDialog {DefaultExt = ".wav", Filter = "Text documents (.wav)|*.wav"};
             var result = dlg.ShowDialog();
             if (result == true)
             {
-                FilePath = dlg.FileName;
+                FilePath.Value = dlg.FileName;
             }
         }
     }
