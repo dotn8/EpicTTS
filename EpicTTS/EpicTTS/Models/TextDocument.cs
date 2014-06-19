@@ -1,73 +1,65 @@
+using System;
 using System.IO;
 using System.Speech.Synthesis;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using Codeplex.Reactive;
 using EpicTTS.Utility;
-using FirstFloor.ModernUI.Presentation;
 
 namespace EpicTTS.Models
 {
     public class TextDocument : ObservableObject
     {
-        private string _filePath;
-        private string _text;
-        public ICommand BrowseCommand { get; private set; }
-        public ICommand ShowContextMenuCommand { get; set; }
+        public ReactiveCommand BrowseCommand { get; private set; }
+        public ReactiveCommand ShowContextMenuCommand { get; set; }
 
-        public string Text
-        {
-            get { return GetProperty(ref _text); }
-            set { SetProperty(ref _text, value); }
-        }
-
-        public string FilePath
-        {
-            get { return GetProperty(ref _filePath); }
-            set { SetProperty(ref _filePath, value); }
-        }
+        public ReactiveProperty<string> Text { get; private set; }
+        public ReactiveProperty<string> FilePath { get; private set; }
 
         public TextDocument()
         {
-            Text = "";
-            BrowseCommand = new RelayCommand(obj => Browse());
-            ShowContextMenuCommand = new RelayCommand(ShowContextMenu);
+            Text = new ReactiveProperty<string>("");
+            FilePath = new ReactiveProperty<string>("");
+            BrowseCommand = new ReactiveCommand();
+            BrowseCommand.Subscribe(Browse);
+            ShowContextMenuCommand = new ReactiveCommand();
+            ShowContextMenuCommand.Subscribe(ShowContextMenu);
         }
 
         private void ShowContextMenu(object obj)
         {
-            if (File.Exists(FilePath))
+            if (!File.Exists(FilePath.Value))
                 return;
             var button = (Button) obj;
             var shellContextMenu = new ShellContextMenu();
-            shellContextMenu.ShowContextMenu(new[] { new FileInfo(FilePath) }, button.PointToScreen(new Point(0, 0)));
+            shellContextMenu.ShowContextMenu(new[] { new FileInfo(FilePath.Value) }, button.PointToScreen(new Point(0, 0)));
         }
 
-        private void Browse()
+        private void Browse(object obj)
         {
             var dlg = new Microsoft.Win32.OpenFileDialog {DefaultExt = ".txt", Filter = "Text documents (.txt)|*.txt"};
             var result = dlg.ShowDialog();
             if (result == true)
             {
-                FilePath = dlg.FileName;
+                FilePath.Value = dlg.FileName;
                 Open();
             }
         }
 
         public void Open(string path)
         {
-            FilePath = path;
+            FilePath.Value = path;
             Open();
         }
 
         public void Open()
         {
-            Text = File.ReadAllText(FilePath);
+            Text.Value = File.ReadAllText(FilePath.Value);
         }
 
         public Prompt AsPrompt()
         {
-            return new Prompt(Text);
+            return new Prompt(Text.Value);
         }
     }
 }

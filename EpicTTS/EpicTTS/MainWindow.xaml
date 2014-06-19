@@ -21,7 +21,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Target="{Binding ElementName=FileExportFilePathTextBox}" Margin="0,0,10,0">File:</Label>
-                <TextBox Grid.Column="1" Name="FileExportFilePathTextBox" Text="{Binding FilePath}"/>
+                <TextBox Grid.Column="1" Name="FileExportFilePathTextBox" Text="{Binding FilePath.Value}"/>
                 <Button Grid.Column="2" Command="{Binding Path=BrowseCommand}" Name="ExportFilePathBrowseButton">...
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseRightButtonDown">
@@ -101,7 +101,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Target="{Binding ElementName=ImportFilePathTextBox}" Margin="0,0,10,0">File:</Label>
-                            <TextBox Grid.Column="1" Name="ImportFilePathTextBox" Text="{Binding Document.FilePath}"/>
+                            <TextBox Grid.Column="1" Name="ImportFilePathTextBox" Text="{Binding Document.FilePath.Value}"/>
                             <Button Grid.Column="2" Command="{Binding Path=Document.BrowseCommand}" Name="DocumentBrowseButton">...
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseRightButtonDown">
@@ -151,6 +151,6 @@
 
             </fluent:RibbonTabItem>
         </fluent:Ribbon>
-        <TextBox Grid.Row="1" Text="{Binding Path=Document.Text, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Text="{Binding Path=Document.Text.Value, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </fluent:MetroWindow>
