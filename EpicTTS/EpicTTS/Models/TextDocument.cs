@@ -36,6 +36,8 @@ namespace EpicTTS.Models
 
         private void ShowContextMenu(object obj)
         {
+            if (File.Exists(FilePath))
+                return;
             var button = (Button) obj;
             var shellContextMenu = new ShellContextMenu();
             shellContextMenu.ShowContextMenu(new[] { new FileInfo(FilePath) }, button.PointToScreen(new Point(0, 0)));
