@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-    <Product Id="B708ECB0-4C07-4648-AD00-74F742E86B42" Name="TestProduct" Language="1033" Version="0.0.0.1" Manufacturer="WixEdit" UpgradeCode="57754D89-DB48-4AB6-A908-54AF7BD84858">
-        <Package Description="Test file in a Product" Comments="Simple test" InstallerVersion="200" Compressed="yes" />
+    <Product Id="B708ECB0-4C07-4648-AD00-74F742E86B42" Name="EpicTTS" Language="1033" Version="0.0.0.1" Manufacturer="WixEdit" UpgradeCode="57754D89-DB48-4AB6-A908-54AF7BD84858">
+        <Package Description="Simple, powerful software for text-to-speech conversion" InstallerVersion="200" Compressed="yes" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="RELEASE" Name="Release">
@@ -156,7 +156,9 @@
             <ComponentRef Id="SYSTEM.WINDOWS.INTERACTIVITY.DLL" />
             <ComponentRef Id="StartMenuShortcuts" />
         </Feature>
+        <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
         <UI />
+        <UIRef Id="WixUI_Minimal" />
         <PropertyRef Id="NETFRAMEWORK35" />
         <Condition Message="This application requires .NET Framework X.Y.">Installed OR NETFRAMEWORK35</Condition>
         <Icon Id="DesktopIcon.exe" SourceFile="..\EpicTTS\bin\Release\EpicTTS.exe" />
