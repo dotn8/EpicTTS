@@ -25,7 +25,7 @@
                 <Button Grid.Column="2" Command="{Binding Path=BrowseCommand}" Name="ExportFilePathBrowseButton">...
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseRightButtonDown">
-                            <command:EventToCommand Command="{Binding ShowContextMenuCommand, Mode=OneWay}"
+							<command:EventToCommand Command="{Binding ShellContextMenuCommand, Mode=OneWay}"
                                                     CommandParameter="{Binding ElementName=ExportFilePathBrowseButton, Mode=OneWay}"
                                                     MustToggleIsEnabledValue="True" />
                         </i:EventTrigger>
@@ -135,7 +135,7 @@
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
-                <fluent:RibbonGroupBox Name="FileExport" Header="File output">
+                <fluent:RibbonGroupBox Name="Output" Header="Output">
                     <StackPanel Orientation="Vertical">
                         <ComboBox x:Name="ExportComboBox" ItemsSource="{Binding Path=Exports}" MinWidth="150" Margin="5"
                               SelectedItem="{Binding Path=SelectedExport}">
