@@ -222,3 +222,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#############
+## WiX
+#############
+
+*.wixobj
+*.wixpdb
+*.msi
