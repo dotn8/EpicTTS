@@ -8,4 +8,11 @@ EpicTTS is an open source software for all things text-to-speech. This software 
 
 EpicTTS solves all these problems.
 
-The current version of EpicTTS is 0.9.0. EpicTTS uses [semantic versioning](http://semver.org/).
+The current version of EpicTTS is 0.9.1. EpicTTS uses [semantic versioning](http://semver.org/).
+
+## Changelog
+
+### Version 0.9.1
+
+1. Fix a bug where right-clicking on the "..." button next to the file to export, did not cause the Explorer context menu to appear.
+2. Create an MSI installer instead of an EXE installer.
