@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Include>
+    <Fragment xmlns="http://schemas.microsoft.com/wix/2006/wi">
+        <DirectoryRef Id="EpicTTSProgramFilesFolder">
+            <Component Id="cmpF4C7CA40363C8B45A8D4BECBB781B23D" Guid="{71FE5EE2-E6D4-44D0-849E-5FAB597227C6}">
+                <File Id="fil22FFAB92E291349428FFEDDC341CD646" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\CommandLine.dll" />
+            </Component>
+            <Component Id="cmp5FEEE8E3C40CA38A549C017DA7FD0E66" Guid="{EA5CDED4-28D9-4BDC-B608-8B16F687A4B5}">
+                <File Id="fil0E1D15FD74790F76DE1AEC9D2843513C" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\CommandLine.xml" />
+            </Component>
+            <Component Id="cmpE19EC8F5854409CF114F338BC350F4A8" Guid="{6F863930-8A55-4B47-BE68-8C68805F5FA9}">
+                <File Id="filAF97238D345B2E39E593038F24DF8ED9" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\EpicTTS.exe" />
+            </Component>
+            <Component Id="cmp66A333E12F597B9D3A9482512737835C" Guid="{60D3B66C-2282-4631-B8F1-D459F3CC32E6}">
+                <File Id="filF2FC0609F8A9DA8C1DB543ECF5AF8653" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\EpicTTS.exe.config" />
+            </Component>
+            <Component Id="cmp6373F2AEE582DEFEB3706A6C0E5C3BC4" Guid="{36933E78-EEB6-4240-9A7E-52D9C1D0EAF7}">
+                <File Id="fil809CCD0042EC947F5445F2C8ACC1B425" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\EpicTTS.pdb" />
+            </Component>
+            <Component Id="cmpB70978871633E00562C266728BC8B596" Guid="{FDDC1553-D480-4440-977D-6EB7E694621E}">
+                <File Id="fil61B71F55E979BD925EAE159FBBBC3899" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\EpicTTS.vshost.exe" />
+            </Component>
+            <Component Id="cmp9DCB03FDA30C8AACB8E4B3AFE6F72D10" Guid="{7AFC6CEB-F4C7-46BB-8BE4-BF51D2C93E60}">
+                <File Id="fil7A9988462D77B149A1325437C9080BCD" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\EpicTTS.vshost.exe.config" />
+            </Component>
+            <Component Id="cmp3F12680378E0186FFABC9654D38860D7" Guid="{59D4EDD9-1333-4E1A-B563-178CBA16567E}">
+                <File Id="filC819EBA548C300199A0EC1D657C52CF5" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\FirstFloor.ModernUI.dll" />
+            </Component>
+            <Component Id="cmpFB057D91FD5AEF33977790992EF709CF" Guid="{EE5A6EAE-DB61-4177-AF1D-C5B71D6D5F70}">
+                <File Id="fil57724E5FB612B52EC39265F3E2CB0B31" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\FirstFloor.ModernUI.xml" />
+            </Component>
+            <Component Id="cmp6D9DF24DC9F63661E12A20E488C58453" Guid="{1F8F4B72-7B58-4466-8BCB-6503C6BE0572}">
+                <File Id="fil5B64BE8DF61077BF3FB0B0C01415A962" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\Fluent.dll" />
+            </Component>
+            <Component Id="cmpEA0543419BA2A48631726B56BDE8E887" Guid="{3231436D-64D1-4359-85CE-332C1C6BEBC6}">
+                <File Id="fil2B417B0E44F03E46F67686FC33CF4B07" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\Fluent.xml" />
+            </Component>
+            <Component Id="cmpA794055E97367E5FCB09DC64264EF58F" Guid="{6E039AA5-F468-46CA-97C1-9B4F9F747C78}">
+                <File Id="filC3E98C6CECA5DD93BF605E4EDEECC1CA" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\GalaSoft.MvvmLight.Extras.WPF45.dll" />
+            </Component>
+            <Component Id="cmpEE0ED3EA83A87F9ED606F1A2C235FC24" Guid="{23F86EFE-4350-4A97-B35F-19F8CE5D49D3}">
+                <File Id="fil09091A5840B1D2E8AB5A0630ED0EC3B9" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\GalaSoft.MvvmLight.Extras.WPF45.xml" />
+            </Component>
+            <Component Id="cmp2A0804DD38E78047A28EF0730131F59F" Guid="{782375C2-85FE-44AA-BA08-F9F6B9FEB20A}">
+                <File Id="fil0DF5B008279DCFADEFACF52D645BB056" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\GalaSoft.MvvmLight.WPF45.dll" />
+            </Component>
+            <Component Id="cmp130C57D8EC067C2BC225F0E10265641C" Guid="{AA691856-7DE7-498A-84C4-5EDDAB64960C}">
+                <File Id="filFE6C49885343490985B4B7D4A3C8555C" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\GalaSoft.MvvmLight.WPF45.xml" />
+            </Component>
+            <Component Id="cmp557C5314F16E1B308A42D8BAC6F354D0" Guid="{DEBBC326-9A2D-47F2-97CB-92C90321AA62}">
+                <File Id="fil467DDB38C85F17F3F6B7B8DCD9A54482" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\Microsoft.Practices.ServiceLocation.dll" />
+            </Component>
+            <Component Id="cmp1CE8ED0B16D8292D0F8696D2180BD4FF" Guid="{11599C93-CD93-47FE-AF0B-574D3BA8ACF5}">
+                <File Id="fil9EFDA587F3EA49D3CB580FE8668D6650" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\Microsoft.Practices.ServiceLocation.xml" />
+            </Component>
+            <Component Id="cmpCC729BAB464870EF63EEB39CF3F597D0" Guid="{649FF3DF-B963-42CE-A80D-FD166F7D5C1F}">
+                <File Id="fil46F0B75FEB2D921C066819D490757D15" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\ReactiveProperty.DataAnnotations.dll" />
+            </Component>
+            <Component Id="cmp4CC7130FB8D5BF609D0A06DC52FEB155" Guid="{C03BEF74-8333-4575-AB3D-6E69EEEAF19E}">
+                <File Id="filB3D41D0272EF302B93A2649C85302450" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\ReactiveProperty.DataAnnotations.xml" />
+            </Component>
+            <Component Id="cmpE1D585F34CFE90237B263C222BA707AA" Guid="{E00D1F09-1FBF-49F5-82BE-D5861876BE3B}">
+                <File Id="fil7581F3AA440E6F01AE45AD87B1B8DB89" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\ReactiveProperty.dll" />
+            </Component>
+            <Component Id="cmp7C7FCEF7624D9FD3E6A00AF9C6F212F3" Guid="{A9686E81-CF23-4D42-88A3-7E8583488E3A}">
+                <File Id="fil764098282FA6A2AFF7615481035F3C4F" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\ReactiveProperty.NET45.dll" />
+            </Component>
+            <Component Id="cmp9F6B4EB9837CA9D22A1EA4EBD1F101E9" Guid="{534F68EE-C644-4FE1-9D09-1B8D06F1865D}">
+                <File Id="filD3EF7277F584B5FC2EE4B6A31464DFCF" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\ReactiveProperty.NET45.xml" />
+            </Component>
+            <Component Id="cmp95BDEE95B4EEEF1BBDFB3016A1EFB72A" Guid="{B9E4B598-F45A-48B7-B3B4-C5287A1D0FC2}">
+                <File Id="fil32B1237CEC1D2F983BB9463DDFC2988A" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\ReactiveProperty.xml" />
+            </Component>
+            <Component Id="cmpC60C09EF59EEAB511D3B822EE1B06C0A" Guid="{8B0D5F47-4F2B-4246-92FA-9DB2F4450081}">
+                <File Id="fil8ED33005F1DEB7D1CA9CCD0918C263E4" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.Core.dll" />
+            </Component>
+            <Component Id="cmp4658B784D459FD4E5FF84D5AE39C7EE3" Guid="{E9D86665-6A28-4981-BCBF-5FFCE026E93C}">
+                <File Id="fil8229917E98A09BAC890DF1F54D9616F4" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.Core.xml" />
+            </Component>
+            <Component Id="cmp9A18147DC7F52D4B2908294713F46B33" Guid="{0CC0FFCB-5673-49BD-AB33-C2E602CB7DEB}">
+                <File Id="fil38614EFC4E9F612CE35EC3CB0D85B614" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.Interfaces.dll" />
+            </Component>
+            <Component Id="cmpD1B3C99D3BBAAF74A9A27545208A3722" Guid="{4C81F71C-2D47-4060-905C-77989FF71D5C}">
+                <File Id="filFF8A9A87CF9D4B829AC0EBED79058351" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.Interfaces.xml" />
+            </Component>
+            <Component Id="cmp995AFEC4B6E249BB01E359D843C881FD" Guid="{ED757BFE-100D-48D9-A8C4-19B913FA0B3D}">
+                <File Id="filF33C6536032285CA8EEB986B68DEA78E" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.Linq.dll" />
+            </Component>
+            <Component Id="cmpFE4C3315E108C6964FA438DEFA715C01" Guid="{8429F0E7-5A78-4D43-A0DD-9349FC3E8ABD}">
+                <File Id="fil709ABD9DD3C6ACE5B99B8855C179D339" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.Linq.xml" />
+            </Component>
+            <Component Id="cmp185E76FAC615734D62903AB2A335D9B3" Guid="{48EA70A8-41B3-4A95-B2EA-02177D22EBDB}">
+                <File Id="fil048E95FB6876B347DE1657282C0AFC33" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.PlatformServices.dll" />
+            </Component>
+            <Component Id="cmpBBDFE0847CD51815F15EA4ECB3587832" Guid="{4B622CA3-1A4F-4885-B9C8-6209ABCFBA65}">
+                <File Id="fil17CD97EAC2E0F19E1073E99B63A8B942" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Reactive.PlatformServices.xml" />
+            </Component>
+            <Component Id="cmpB969CFB6C3A7A29132B1085A78CC851F" Guid="{BEFD6D1D-F520-4A57-9CBC-32E5F6A78ACB}">
+                <File Id="filDEFD899675533DBD08C16D445DAC0D1F" KeyPath="yes" Source="$(var.EpicTTS.TargetDir)\System.Windows.Interactivity.dll" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment xmlns="http://schemas.microsoft.com/wix/2006/wi">
+        <ComponentGroup Id="EpicTTSComponents">
+            <ComponentRef Id="cmpF4C7CA40363C8B45A8D4BECBB781B23D" />
+            <ComponentRef Id="cmp5FEEE8E3C40CA38A549C017DA7FD0E66" />
+            <ComponentRef Id="cmpE19EC8F5854409CF114F338BC350F4A8" />
+            <ComponentRef Id="cmp66A333E12F597B9D3A9482512737835C" />
+            <ComponentRef Id="cmp6373F2AEE582DEFEB3706A6C0E5C3BC4" />
+            <ComponentRef Id="cmpB70978871633E00562C266728BC8B596" />
+            <ComponentRef Id="cmp9DCB03FDA30C8AACB8E4B3AFE6F72D10" />
+            <ComponentRef Id="cmp3F12680378E0186FFABC9654D38860D7" />
+            <ComponentRef Id="cmpFB057D91FD5AEF33977790992EF709CF" />
+            <ComponentRef Id="cmp6D9DF24DC9F63661E12A20E488C58453" />
+            <ComponentRef Id="cmpEA0543419BA2A48631726B56BDE8E887" />
+            <ComponentRef Id="cmpA794055E97367E5FCB09DC64264EF58F" />
+            <ComponentRef Id="cmpEE0ED3EA83A87F9ED606F1A2C235FC24" />
+            <ComponentRef Id="cmp2A0804DD38E78047A28EF0730131F59F" />
+            <ComponentRef Id="cmp130C57D8EC067C2BC225F0E10265641C" />
+            <ComponentRef Id="cmp557C5314F16E1B308A42D8BAC6F354D0" />
+            <ComponentRef Id="cmp1CE8ED0B16D8292D0F8696D2180BD4FF" />
+            <ComponentRef Id="cmpCC729BAB464870EF63EEB39CF3F597D0" />
+            <ComponentRef Id="cmp4CC7130FB8D5BF609D0A06DC52FEB155" />
+            <ComponentRef Id="cmpE1D585F34CFE90237B263C222BA707AA" />
+            <ComponentRef Id="cmp7C7FCEF7624D9FD3E6A00AF9C6F212F3" />
+            <ComponentRef Id="cmp9F6B4EB9837CA9D22A1EA4EBD1F101E9" />
+            <ComponentRef Id="cmp95BDEE95B4EEEF1BBDFB3016A1EFB72A" />
+            <ComponentRef Id="cmpC60C09EF59EEAB511D3B822EE1B06C0A" />
+            <ComponentRef Id="cmp4658B784D459FD4E5FF84D5AE39C7EE3" />
+            <ComponentRef Id="cmp9A18147DC7F52D4B2908294713F46B33" />
+            <ComponentRef Id="cmpD1B3C99D3BBAAF74A9A27545208A3722" />
+            <ComponentRef Id="cmp995AFEC4B6E249BB01E359D843C881FD" />
+            <ComponentRef Id="cmpFE4C3315E108C6964FA438DEFA715C01" />
+            <ComponentRef Id="cmp185E76FAC615734D62903AB2A335D9B3" />
+            <ComponentRef Id="cmpBBDFE0847CD51815F15EA4ECB3587832" />
+            <ComponentRef Id="cmpB969CFB6C3A7A29132B1085A78CC851F" />
+        </ComponentGroup>
+    </Fragment>
+</Include>

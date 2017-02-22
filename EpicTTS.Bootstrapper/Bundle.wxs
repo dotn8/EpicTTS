@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+	<Bundle Name="EpicTTS" Version="1.0.0.0" Manufacturer="Apocalyptic Octopus" UpgradeCode="6ae66d43-6e2b-4dc8-acf2-f4056f385a79">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication LicenseFile="License.rtf" />
+    </BootstrapperApplicationRef>
+
+		<Chain>
+      <PackageGroupRef Id="NetFx46Redist" />
+      <MsiPackage Compressed="yes" DisplayInternalUI="yes" Vital="yes" EnableFeatureSelection="yes" SourceFile="$(var.EpicTTS.Setup.TargetDir)EPicTTS.Setup.msi" />
+    </Chain>
+	</Bundle>
+</Wix>

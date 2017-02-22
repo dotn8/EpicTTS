@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<Product Id="*" Name="EpicTTS" Language="1033" Version="1.0.0.0" Manufacturer="Apocalyptic Octopus" UpgradeCode="451aa7b1-852c-4cef-b9fa-e6658c311d2d">
+		<Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+              Disallow="yes"
+              AllowSameVersionUpgrades="yes"
+              DisallowUpgradeErrorMessage="Please manually uninstall the pre-existing installation of [ProductName] first" />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="EpicTTS" Level="1">
+			<ComponentGroupRef Id="EpicTTSComponents" />
+      <ComponentRef Id="DesktopShortcuts" />
+      <ComponentRef Id="StartMenuShortcuts" />
+		</Feature>
+
+    <Icon Id="Icon.exe" SourceFile="$(var.EpicTTS.TargetDir)\EpicTTS.exe" />
+  </Product>
+
+	<Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder">
+        <Component Id="DesktopShortcuts" Guid="D5D954CE-93FB-4C49-8B3F-5530C6696C2E">
+          <Shortcut Id="DesktopShortcut"
+                    Name="EpicTTS"
+                    WorkingDirectory="INSTALLDIR"
+                    Advertise="no"
+                    Icon="Icon.exe"
+                    IconIndex="0"
+                    Target="[filAF97238D345B2E39E593038F24DF8ED9]"/>
+          <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\DesktopShortcuts" Type="string" Value="" KeyPath="yes" />
+        </Component>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="EpicTTSProgramMenuFolder" Name="EpicTTS">
+          <Component Id="StartMenuShortcuts" Guid="AF969EF2-21DC-46D4-A909-13B9D81BBED3">
+            <Shortcut Id="StartMenuShortcut"
+                      Name="EpicTTS"
+                      WorkingDirectory="INSTALLDIR"
+                      Advertise="no"
+                      Icon="Icon.exe"
+                      IconIndex="0"
+                      Target="[filAF97238D345B2E39E593038F24DF8ED9]"/>
+            <RemoveFolder Id="EpicTTSProgramMenuFolder" On="uninstall" />
+            <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\StartMenuShortcuts" Type="string" Value="" KeyPath="yes" />
+            <Shortcut Id="UninstallProduct" Name="Uninstall EpicTTS" Description="Uninstalls the application" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" />
+            <util:InternetShortcut Id="WebsiteShortcut" Name="The EpicTTS website" Target="https://github.com/ApocalypticOctopus/EpicTTS" />
+          </Component>
+        </Directory>
+      </Directory>
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="EpicTTSProgramFilesFolder" Name="EpicTTS" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<?include EpicTTS.g.wxi ?>
+</Wix>
