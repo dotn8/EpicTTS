@@ -2,59 +2,41 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Speech.Synthesis;
 using System.Windows.Input;
+using Codeplex.Reactive;
 using EpicTTS.Utility;
 using FirstFloor.ModernUI.Presentation;
 
 namespace EpicTTS.ViewModels
 {
-    public class MainViewModel : ObservableObject, IDisposable
+    public class MainViewModel : IDisposable
     {
-        private SpeechSynthesizer _synthesizer;
-        private InstalledVoice _selectedVoice;
-        private TextDocumentViewModel _documentViewModel;
-        private IExport _selectedExport;
-        public IList<InstalledVoice> Voices { get; private set; }
+        private readonly SpeechSynthesizer _synthesizer;
+        public IEnumerable<InstalledVoice> Voices { get; }
         public ICommand SpeakCommand { get; private set; }
         public ICommand StopSpeakingCommand { get; private set; }
         public ICommand PauseSpeakingCommand { get; private set; }
-        public ObservableCollection<IExport> Exports { get; private set; }
+        public ObservableCollection<IExport> Exports { get; }
 
-        public IExport SelectedExport
-        {
-            get { return GetProperty(ref _selectedExport); }
-            set
-            {
-                if (SetProperty(ref _selectedExport, value))
-                {
-                    if (State != SynthesizerState.Ready)
-                    {
-                        StopSpeaking(null);
-                        Exports.ForEach(export => export.IsSelected.Value = false);
-                        value.IsSelected.Value = true;
-                    }
-                    value.ExportCommand.Execute();
-                }
-            }
-        }
+        public ReactiveProperty<IExport> SelectedExport { get; } = new ReactiveProperty<IExport>();
 
-        public SynthesizerState State
-        {
-            get { return _synthesizer.State; }
-        }
+        public ReactiveProperty<SynthesizerState> State { get; } = new ReactiveProperty<SynthesizerState>();
 
         public MainViewModel(Options options)
         {
             _synthesizer = new SpeechSynthesizer();
-            _synthesizer.StateChanged += StateChanged;
+            _synthesizer.StateChanged += (_, __) => State.Value = _synthesizer.State;
 
             Voices = new List<InstalledVoice>(_synthesizer.GetInstalledVoices());
-            SelectedVoice = Voices[0];
+            SelectedVoice.Value = Voices.First();
 
-            DocumentViewModel = new TextDocumentViewModel();
+            Document = new TextDocumentViewModel();
             if (File.Exists(options.InputPath))
-                DocumentViewModel.Open(options.InputPath);
+                Document.Open(options.InputPath);
+
+            SelectedExport.Subscribe(OnExportChanged);
 
             var exportToFilePath = "";
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
@@ -68,28 +50,40 @@ namespace EpicTTS.ViewModels
             };
             Exports.ForEach(export => export.SpeechSynthesizer.Value = _synthesizer);
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
-                SelectedExport = Exports[1];
+                SelectedExport.Value = Exports[1];
             else
-                SelectedExport = Exports[0];
+                SelectedExport.Value = Exports[0];
 
             SpeakCommand = new RelayCommand(Speak);
             StopSpeakingCommand = new RelayCommand(StopSpeaking);
             PauseSpeakingCommand = new RelayCommand(PauseSpeaking);
+
+            SelectedVoice.Subscribe(voice => _synthesizer.SelectVoice(voice.VoiceInfo.Name));
+        }
+
+        private void OnExportChanged(IExport value)
+        {
+            if (State.Value != SynthesizerState.Ready)
+            {
+                StopSpeaking(null);
+                Exports.ForEach(export => export.IsSelected.Value = false);
+            }
+
+            if (value != null)
+            {
+                value.IsSelected.Value = true;
+                value.ExportCommand.Execute();
+            }
         }
 
         private void PauseSpeaking(object obj)
         {
             _synthesizer.Pause();
         }
-
-        private void StateChanged(object sender, StateChangedEventArgs e)
-        {
-            OnPropertyChanged("State");
-        }
-
+        
         public void Speak()
         {
-            _synthesizer.Speak(DocumentViewModel.AsPrompt());
+            _synthesizer.Speak(Document.AsPrompt());
         }
 
         private void Speak(object obj)
@@ -98,8 +92,8 @@ namespace EpicTTS.ViewModels
                 _synthesizer.Resume();
             else
             {
-                SelectedExport.ExportCommand.Execute();
-                _synthesizer.SpeakAsync(DocumentViewModel.AsPrompt());
+                SelectedExport.Value.ExportCommand.Execute();
+                _synthesizer.SpeakAsync(Document.AsPrompt());
             }
         }
 
@@ -110,21 +104,9 @@ namespace EpicTTS.ViewModels
             _synthesizer.SpeakAsyncCancelAll();
         }
 
-        public InstalledVoice SelectedVoice
-        {
-            get { return GetProperty(ref _selectedVoice); }
-            set
-            {
-                SetProperty(ref _selectedVoice, value);
-                _synthesizer.SelectVoice(_selectedVoice.VoiceInfo.Name);
-            }
-        }
+        public ReactiveProperty<InstalledVoice> SelectedVoice { get; } = new ReactiveProperty<InstalledVoice>();
 
-        public TextDocumentViewModel DocumentViewModel
-        {
-            get { return GetProperty(ref _documentViewModel); }
-            set { SetProperty(ref _documentViewModel, value); }
-        }
+        public TextDocumentViewModel Document { get; }
 
         public void Dispose()
         {

@@ -118,19 +118,19 @@
                 <!--By default ReduceOrder="Large, Middle, Small"-->
                 <fluent:RibbonGroupBox Name="Voice" Header="Voice" MinWidth="200">
                     <ComboBox x:Name="VoiceComboBox" ItemsSource="{Binding Path=Voices}" MinWidth="150" Margin="5"
-                              SelectedItem="{Binding Path=SelectedVoice}" ItemTemplate="{StaticResource VoiceComboBoxDataTemplate}"/>
+                              SelectedItem="{Binding Path=SelectedVoice.Value}" ItemTemplate="{StaticResource VoiceComboBoxDataTemplate}"/>
                 </fluent:RibbonGroupBox>
 
                 <fluent:RibbonGroupBox Name="Playback" Header="Playback">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Label Target="{Binding ElementName=StateTextBlock}" Margin="0,0,10,0">State:</Label>
-                            <TextBlock Name="StateTextBlock" Text="{Binding Path=State}"/>
+                            <TextBlock Name="StateTextBlock" Text="{Binding Path=State.Value}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource StopEnabledStateConverter}}"/>
-                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PlayEnabledStateConverter}}"/>
-                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" IsEnabled="{Binding Path=State, Converter={StaticResource PauseEnabledStateConverter}}"/>
+                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04d;" Command="{Binding Path=StopSpeakingCommand}" IsEnabled="{Binding Path=State.Value, Converter={StaticResource StopEnabledStateConverter}}"/>
+                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04b;" Command="{Binding Path=SpeakCommand}" IsEnabled="{Binding Path=State.Value, Converter={StaticResource PlayEnabledStateConverter}}"/>
+                            <Button FontFamily="./resources/#FontAwesome" FontSize="24" Content="&#xf04c;" Command="{Binding Path=PauseSpeakingCommand}" IsEnabled="{Binding Path=State.Value, Converter={StaticResource PauseEnabledStateConverter}}"/>
                         </StackPanel>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
@@ -138,14 +138,14 @@
                 <fluent:RibbonGroupBox Name="Output" Header="Output">
                     <StackPanel Orientation="Vertical">
                         <ComboBox x:Name="ExportComboBox" ItemsSource="{Binding Path=Exports}" MinWidth="150" Margin="5"
-                              SelectedItem="{Binding Path=SelectedExport}">
+                              SelectedItem="{Binding Path=SelectedExport.Value}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Description.Value}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <ContentControl Content="{Binding Path=SelectedExport}"/>
+                        <ContentControl Content="{Binding Path=SelectedExport.Value}"/>
                     </StackPanel>
                 </fluent:RibbonGroupBox>
 
