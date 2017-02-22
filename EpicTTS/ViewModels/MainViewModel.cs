@@ -48,7 +48,11 @@ namespace EpicTTS.ViewModels
                 new ExportToDefaultAudioDeviceViewModel(),
                 new ExportToFileViewModel{FilePath = { Value = exportToFilePath}},
             };
-            Exports.ForEach(export => export.SpeechSynthesizer.Value = _synthesizer);
+            foreach (var export in Exports)
+            {
+                export.SpeechSynthesizer.Value = _synthesizer;
+            }
+
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
                 SelectedExport.Value = Exports[1];
             else
@@ -66,7 +70,10 @@ namespace EpicTTS.ViewModels
             if (State.Value != SynthesizerState.Ready)
             {
                 StopSpeaking(null);
-                Exports.ForEach(export => export.IsSelected.Value = false);
+                foreach (var export in Exports)
+                {
+                    export.IsSelected.Value = false;
+                }
             }
 
             if (value != null)
