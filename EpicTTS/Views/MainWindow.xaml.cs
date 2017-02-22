@@ -1,6 +1,6 @@
 ﻿using EpicTTS.ViewModels;
 
-namespace EpicTTS
+namespace EpicTTS.Views
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml

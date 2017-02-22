@@ -24,7 +24,7 @@ namespace EpicTTS
             }
             else
             {
-                var mainWindow = new MainWindow(options);
+                var mainWindow = new Views.MainWindow(options);
                 mainWindow.Show();
             }
 
