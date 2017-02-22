@@ -113,12 +113,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\ExportToDefaultAudioDevice.cs" />
-    <Compile Include="Models\ExportToFile.cs" />
-    <Compile Include="Models\IExport.cs" />
-    <Compile Include="Models\MainModel.cs" />
-    <Compile Include="Models\ObservableObject.cs" />
-    <Compile Include="Models\TextDocument.cs" />
+    <Compile Include="ViewModels\ExportToDefaultAudioDeviceViewModel.cs" />
+    <Compile Include="ViewModels\ExportToFileViewModel.cs" />
+    <Compile Include="ViewModels\IExport.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ObservableObject.cs" />
+    <Compile Include="ViewModels\TextDocumentViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

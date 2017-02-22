@@ -9,9 +9,9 @@ using EpicTTS.Utility;
 using FirstFloor.ModernUI.Presentation;
 using Microsoft.Win32;
 
-namespace EpicTTS.Models
+namespace EpicTTS.ViewModels
 {
-    public class ExportToFile : IExport
+    public class ExportToFileViewModel : IExport
     {
         public ReactiveProperty<string> FilePath { get; private set; }
         public ReactiveProperty<SpeechSynthesizer> SpeechSynthesizer { get; private set; }
@@ -26,7 +26,7 @@ namespace EpicTTS.Models
             SpeechSynthesizer.Value.SetOutputToNull();
         }
 
-        public ExportToFile()
+        public ExportToFileViewModel()
         {
             FilePath = new ReactiveProperty<string>("");
             SpeechSynthesizer = new ReactiveProperty<SpeechSynthesizer>();

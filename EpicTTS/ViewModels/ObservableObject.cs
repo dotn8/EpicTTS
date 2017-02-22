@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using EpicTTS.Annotations;
 
-namespace EpicTTS.Models
+namespace EpicTTS.ViewModels
 {
     public class ObservableObject : INotifyPropertyChanged
     {

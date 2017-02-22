@@ -6,13 +6,13 @@
         xmlns:converters="clr-namespace:EpicTTS.Converters"
         xmlns:synthesis="clr-namespace:System.Speech.Synthesis;assembly=System.Speech"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:models="clr-namespace:EpicTTS.Models"
+        xmlns:models="clr-namespace:EpicTTS.ViewModels"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         Title="EpicTTS" Grid.IsSharedSizeScope="True" Closed="Window_Closed"
         Style="{StaticResource MetroWindowStyle}">
     <fluent:MetroWindow.Resources>
-        <DataTemplate DataType="{x:Type models:ExportToFile}">
+        <DataTemplate DataType="{x:Type models:ExportToFileViewModel}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -33,7 +33,7 @@
                 </Button>
             </Grid>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type models:ExportToDefaultAudioDevice}"/>
+        <DataTemplate DataType="{x:Type models:ExportToDefaultAudioDeviceViewModel}"/>
         <ControlTemplate x:Key="ListVoiceDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>

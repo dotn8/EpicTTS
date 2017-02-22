@@ -1,4 +1,4 @@
-﻿using EpicTTS.Models;
+﻿using EpicTTS.ViewModels;
 
 namespace EpicTTS
 {
@@ -9,13 +9,13 @@ namespace EpicTTS
     {
         public MainWindow(Options options)
         {
-            DataContext = new MainModel(options);
+            DataContext = new MainViewModel(options);
             InitializeComponent();
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
-            var viewModel = ((MainModel)DataContext);
+            var viewModel = ((MainViewModel)DataContext);
             DataContext = null;
             viewModel.Dispose();
         }

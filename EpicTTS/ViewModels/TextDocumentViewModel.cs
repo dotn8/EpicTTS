@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using Codeplex.Reactive;
 using EpicTTS.Utility;
 
-namespace EpicTTS.Models
+namespace EpicTTS.ViewModels
 {
-    public class TextDocument
+    public class TextDocumentViewModel
     {
         public ReactiveCommand BrowseCommand { get; private set; }
         public ReactiveCommand ShowContextMenuCommand { get; set; }
@@ -16,7 +16,7 @@ namespace EpicTTS.Models
         public ReactiveProperty<string> Text { get; private set; }
         public ReactiveProperty<string> FilePath { get; private set; }
 
-        public TextDocument()
+        public TextDocumentViewModel()
         {
             Text = new ReactiveProperty<string>("");
             FilePath = new ReactiveProperty<string>("");

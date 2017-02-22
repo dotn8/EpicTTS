@@ -7,13 +7,13 @@ using System.Windows.Input;
 using EpicTTS.Utility;
 using FirstFloor.ModernUI.Presentation;
 
-namespace EpicTTS.Models
+namespace EpicTTS.ViewModels
 {
-    public class MainModel : ObservableObject, IDisposable
+    public class MainViewModel : ObservableObject, IDisposable
     {
         private SpeechSynthesizer _synthesizer;
         private InstalledVoice _selectedVoice;
-        private TextDocument _document;
+        private TextDocumentViewModel _documentViewModel;
         private IExport _selectedExport;
         public IList<InstalledVoice> Voices { get; private set; }
         public ICommand SpeakCommand { get; private set; }
@@ -44,7 +44,7 @@ namespace EpicTTS.Models
             get { return _synthesizer.State; }
         }
 
-        public MainModel(Options options)
+        public MainViewModel(Options options)
         {
             _synthesizer = new SpeechSynthesizer();
             _synthesizer.StateChanged += StateChanged;
@@ -52,9 +52,9 @@ namespace EpicTTS.Models
             Voices = new List<InstalledVoice>(_synthesizer.GetInstalledVoices());
             SelectedVoice = Voices[0];
 
-            Document = new TextDocument();
+            DocumentViewModel = new TextDocumentViewModel();
             if (File.Exists(options.InputPath))
-                Document.Open(options.InputPath);
+                DocumentViewModel.Open(options.InputPath);
 
             var exportToFilePath = "";
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
@@ -63,8 +63,8 @@ namespace EpicTTS.Models
                 exportToFilePath = options.InputPath + ".wav";
             Exports = new ObservableCollection<IExport>
             {
-                new ExportToDefaultAudioDevice(),
-                new ExportToFile{FilePath = { Value = exportToFilePath}},
+                new ExportToDefaultAudioDeviceViewModel(),
+                new ExportToFileViewModel{FilePath = { Value = exportToFilePath}},
             };
             Exports.ForEach(export => export.SpeechSynthesizer.Value = _synthesizer);
             if (!String.IsNullOrWhiteSpace(options.OutputPath))
@@ -89,7 +89,7 @@ namespace EpicTTS.Models
 
         public void Speak()
         {
-            _synthesizer.Speak(Document.AsPrompt());
+            _synthesizer.Speak(DocumentViewModel.AsPrompt());
         }
 
         private void Speak(object obj)
@@ -99,7 +99,7 @@ namespace EpicTTS.Models
             else
             {
                 SelectedExport.ExportCommand.Execute();
-                _synthesizer.SpeakAsync(Document.AsPrompt());
+                _synthesizer.SpeakAsync(DocumentViewModel.AsPrompt());
             }
         }
 
@@ -120,10 +120,10 @@ namespace EpicTTS.Models
             }
         }
 
-        public TextDocument Document
+        public TextDocumentViewModel DocumentViewModel
         {
-            get { return GetProperty(ref _document); }
-            set { SetProperty(ref _document, value); }
+            get { return GetProperty(ref _documentViewModel); }
+            set { SetProperty(ref _documentViewModel, value); }
         }
 
         public void Dispose()

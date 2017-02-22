@@ -1,7 +1,7 @@
 using System.Speech.Synthesis;
 using Codeplex.Reactive;
 
-namespace EpicTTS.Models
+namespace EpicTTS.ViewModels
 {
     public interface IExport
     {

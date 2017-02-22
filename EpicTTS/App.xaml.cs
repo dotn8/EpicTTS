@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using EpicTTS.Models;
+using EpicTTS.ViewModels;
 
 namespace EpicTTS
 {
@@ -18,7 +18,7 @@ namespace EpicTTS
 
             if (options.Headless)
             {
-                var model = new MainModel(options);
+                var model = new MainViewModel(options);
                 model.Speak();
                 Environment.Exit(0);
             }
